@@ -9,7 +9,7 @@ router = APIRouter()
 
 db = InMemoryDB()
 db.books = {
-    1: Book(
+    4: Book(
         id=1,
         title="The Hobbit",
         author="J.R.R. Tolkien",
@@ -46,6 +46,22 @@ async def create_book(book: Book):
 )
 async def get_books() -> OrderedDict[int, Book]:
     return db.get_books()
+
+@router.get(
+    "/{book_id}",  status_code=status.HTTP_200_OK
+)
+async def get_book(book_id: int):
+
+    try:
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content=db.get_book(book_id).model_dump()
+        )
+    except:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={"detail": "Book not found"}
+        )
 
 
 @router.put("/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
