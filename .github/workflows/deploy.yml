@@ -1,0 +1,19 @@
+name: deploy
+
+on:
+  pull_request:
+    branches:
+        - main
+    types: 
+        [closed] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Confirm merge
+        run: echo "Request is merged"
