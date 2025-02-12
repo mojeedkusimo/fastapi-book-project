@@ -9,7 +9,7 @@ router = APIRouter()
 
 db = InMemoryDB()
 db.books = {
-    4: Book(
+    1: Book(
         id=1,
         title="The Hobbit",
         author="J.R.R. Tolkien",
