@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: 3.12
       - name: Confirm merge
-        run: echo "Request is merged"
+        run: echo "Test Request is merged"
