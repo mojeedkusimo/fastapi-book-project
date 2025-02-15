@@ -7,11 +7,21 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Connect to production server
+        uses: appleboy/ssh-action@master
         with:
-          python-version: 3.12
-      - name: Confirm merge
-        run: echo "Test Request is merged x 5"
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/fastapi-book-project
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+            sudo systemctl restart nginx
