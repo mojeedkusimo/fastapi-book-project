@@ -20,7 +20,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ubuntu/fastapi-book-project
-            rm -fr Dockerfile docker-compose.yml
             git pull origin main
             sudo docker-compose down
             sudo docker-compose build
